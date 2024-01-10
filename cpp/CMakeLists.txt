@@ -33,8 +33,8 @@ set(
 # Add library
 add_library(
     ${PROJECT_NAME}
-    # SHARED
-    STATIC   
+    SHARED
+    # STATIC   
     ${HEADERS}
     ${SOURCE}
 )

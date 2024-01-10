@@ -1,28 +1,30 @@
 #include <string>
 
-#ifndef CAR_H
-#define CAR_H
+#ifndef MY_LIB
+#define MY_LIB
 
-namespace vehicles {
+namespace talker {
 
-class Motorcycle {
+class SomeTalker {
 
 private:
-
-    /// Name
-    std::string _name;
+    std::string _text;
 
 public:
 
-    /// Constructor
-    Motorcycle(std::string name);
+    // Constructor
+    SomeTalker(std::string text);
 
-    /// Get motorcycle name
-    /// @return Motorcycle name
-    std::string get_name() const;
+    // Get text
+    std::string get_text();
+    //  Set text
+    void set_text(std::string text);
 
-    /// Drive the motorcycle
-    void ride() const;
+    // Get omp_max_treads
+    int get_omp_max_treads();
+
+    // Get text with parallel
+    void get_text_parallel(int streams);
 };
 
 }

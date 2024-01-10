@@ -1,5 +1,7 @@
 # Simple cpp porting to python
 
+[Not bad tutorial](https://smyt.ru/blog/sozdaem-s-python-rasshireniya-s-pomshyu-pybind11/?ysclid=lr6j5noobx652421112)
+
 ## Building cpp
 ```bush
 mkdir build && cd build

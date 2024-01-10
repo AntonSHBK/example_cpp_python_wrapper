@@ -1,19 +1,33 @@
-#include "../include/my_lib/my_include_file.h"
-
 #include <iostream>
+#include <omp.h>
 
-namespace vehicles {
+#include "my_lib/my_include_file.h"
 
-Motorcycle::Motorcycle(std::string name) {
-    _name = name;
+namespace talker {
+
+SomeTalker::SomeTalker(std::string text) {
+    _text = text;
 }
 
-std::string Motorcycle::get_name() const {
-    return _name;
+std::string SomeTalker::get_text() {
+    return _text;
 }
 
-void Motorcycle::ride() const {
-    std::cout << "Zoom Zoom" << std::endl;
+void SomeTalker::set_text(std::string text) {
+    _text = text;
+}
+
+int SomeTalker::get_omp_max_treads() {
+    return omp_get_max_threads();
+}
+
+void SomeTalker::get_text_parallel(int streams = 4) {
+    #pragma omp parallel for
+    for (int i = 0; i < streams; i++)
+    {
+        std::cout << omp_get_thread_num() << _text;
+    }
+    std::cout << std::endl;
 }
 
 }

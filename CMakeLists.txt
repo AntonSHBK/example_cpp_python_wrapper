@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.26.5 FATAL_ERROR)
 
-set(projectName cpp_to_python)
 project(
-    ${projectName} 
-    VERSION 0.1.0
-    DESCRIPTION "cpp_to_python description"
+  cpp_to_python 
+  VERSION 0.1.0
+  DESCRIPTION "cpp_to_python description"
 )
 
 # Standarts
@@ -19,28 +18,21 @@ endif()
 set(CMAKE_CXX_FLAGS "-O3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-project(${projectName})
-
-include_directories("${CMAKE_SOURCE_DIR}/cpp/include/my_include_bits")
-include_directories("${CMAKE_SOURCE_DIR}/python")
-
-file (GLOB SOURCE_FILES "cpp/src/*.cpp")
-file (GLOB HEADER_FILES "cpp/include/my_include_bits/*.hpp")
-file (GLOB PYTHON_FILES "python/*.cpp" "python/*.hpp")
-
-# Set up such that XCode organizes the files
-# source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES} ${HEADER_FILES} ${PYTHON_FILES} )
-
-include(pybind11.cmake)
-pybind11_add_module(${projectName} 
-	${SOURCE_FILES}
-	${HEADER_FILES}
-	${PYTHON_FILES}
+set(
+    SOURCES 
+    python/python_header.h
+    python/python_src.cpp
 )
 
-target_link_libraries(${projectName} PUBLIC)
+add_executable(
+    ${PROJECT_NAME} 
+    ${SOURCES} 
+)
 
-install(TARGETS ${projectName}
-  COMPONENT python
-  LIBRARY DESTINATION "${PYTHON_LIBRARY_DIR}"
-  )
+if (NOT TARGET cpp_code)
+  add_subdirectory(cpp)
+endif() 
+target_link_libraries(${PROJECT_NAME} cpp_code)
+
+
+
