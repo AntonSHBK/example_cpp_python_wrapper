@@ -1,6 +1,5 @@
-cmake_minimum_required(VERSION 3.26.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25.1 FATAL_ERROR)
 
-# set(projectName cpp_code)
 project(
     cpp_code 
     VERSION 0.1.0

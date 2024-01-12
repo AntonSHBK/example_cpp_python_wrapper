@@ -1,6 +1,14 @@
 # Simple cpp porting to python
 
-[Not bad tutorial](https://smyt.ru/blog/sozdaem-s-python-rasshireniya-s-pomshyu-pybind11/?ysclid=lr6j5noobx652421112)
+[Idea](https://github.com/smrfeld/cmake_cpp_pybind11_tutorial)
+
+[Official tutorial](https://pybind11.readthedocs.io/en/stable/basics.html)
+
+[Pybind11 examples](https://github.com/pybind/cmake_example)
+
+[Not bad tutorial for pybind11](https://smyt.ru/blog/sozdaem-s-python-rasshireniya-s-pomshyu-pybind11/?ysclid=lr6j5noobx652421112)
+
+[About CMake expansion setup.py](https://www.benjack.io/hybrid-python/c-packages-revisited/)
 
 ## Building cpp
 ```bush
