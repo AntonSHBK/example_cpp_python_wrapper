@@ -7,7 +7,7 @@ from pathlib import Path
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
 
-PACKAGE_NAME = "MyLib"
+PACKAGE_NAME = "CppToPython"
 
 VERSION = '0.1'
 LICENSE = "MIT"

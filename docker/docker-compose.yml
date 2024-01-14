@@ -8,14 +8,17 @@ services:
     tty: true
     working_dir: /app
     volumes:
-      - .:/app
+      - ../:/app
     env_file:
       - ./env/.env
     command:
       - /bin/bash
       - -c
       - |
-        mkdir build
-        cd build
-        cmake ..
-        cmake --build .
+        # mkdir build
+        # cd build
+        # cmake ..
+        # cmake --build .
+        # cd ..
+        # pip3 install -e . -vvv
+        sleep 5d

@@ -28,5 +28,9 @@ For test i use CTest. For verbose output you will use:
 cd build
 ctest --verbose
 ```
+```
+pip3 install . --break-system-packages
+```
+
 
 [Вдохновение статье](https://github.com/smrfeld/cmake_cpp_pybind11_tutorial.git)

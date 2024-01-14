@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.25.1 FATAL_ERROR)
 
 project(
-  cpp_to_python 
+  CppToPython 
   VERSION 0.1.0
-  DESCRIPTION "cpp_to_python description"
+  DESCRIPTION "CppToPython description"
 )
 
 # Standarts
@@ -23,16 +23,15 @@ set(
     python/python_header.h
     python/python_src.cpp
 )
-
-add_executable(
-    ${PROJECT_NAME} 
-    ${SOURCES} 
+find_package(pybind11 REQUIRED)
+# add_subdirectory(pybind11)
+pybind11_add_module(
+  ${PROJECT_NAME}
+  ${SOURCES}
 )
 
 if (NOT TARGET cpp_code)
   add_subdirectory(cpp)
 endif() 
-target_link_libraries(${PROJECT_NAME} cpp_code)
-
-
+include_directories(cpp/include)
 
