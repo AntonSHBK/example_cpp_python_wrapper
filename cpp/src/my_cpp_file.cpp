@@ -30,4 +30,8 @@ void SomeTalker::get_text_parallel(int streams = 4) {
     std::cout << std::endl;
 }
 
+int bob(const int &a, const int &b) {
+    return a + b;
+}
+
 }

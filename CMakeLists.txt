@@ -19,19 +19,39 @@ set(CMAKE_CXX_FLAGS "-O3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 set(
-    SOURCES 
-    python/python_header.h
-    python/python_src.cpp
+  PYTHON_SOURCES 
+  python/python_header.h
+  python/python_src.cpp
 )
-find_package(pybind11 REQUIRED)
-# add_subdirectory(pybind11)
-pybind11_add_module(
-  ${PROJECT_NAME}
-  ${SOURCES}
+
+file (
+  GLOB
+  CPP_SOURCES 
+  "cpp/src/*.cpp"
+  "cpp/include/my_lib/*.h"
 )
+
 
 if (NOT TARGET cpp_code)
   add_subdirectory(cpp)
 endif() 
+
 include_directories(cpp/include)
 
+find_package(pybind11 REQUIRED)
+
+MESSAGE( [MAIN] "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}")
+MESSAGE( [Main] " pybind11_INCLUDE_DIRS = ${pybind11_INCLUDE_DIRS}")
+MESSAGE( [Main] " pybind11_LIBRARIES = ${pybind11_LIBRARIES}")
+
+pybind11_add_module(
+  ${PROJECT_NAME}
+  ${PYTHON_SOURCES}
+  ${CPP_SOURCES}
+)
+
+find_package(OpenMP)
+
+if(OpenMP_CXX_FOUND)
+    target_link_libraries( ${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX)
+endif()

@@ -27,6 +27,8 @@ public:
     void get_text_parallel(int streams);
 };
 
+int bob(const int &, const int &);
+
 }
 
 #endif
