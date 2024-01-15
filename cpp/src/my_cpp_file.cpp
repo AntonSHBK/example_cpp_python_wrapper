@@ -31,7 +31,3 @@ void SomeTalker::get_text_parallel(int streams = 4) {
 }
 
 }
-
-int add(const int &a, const int &b) {
-    return a + b;
-}
