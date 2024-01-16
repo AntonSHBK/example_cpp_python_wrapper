@@ -9,7 +9,6 @@ WORKDIR /app
 COPY . .
 
 # Install dependences
-
 RUN apt-get update && \
     apt-get upgrade && \
     apt-get install -y \
@@ -23,9 +22,3 @@ RUN apt-get update && \
 RUN pip install pybind11 \
     pytest \
     --break-system-packages
-
-# Installling pybind11
-# RUN git clone https://github.com/pybind/pybind11.git 
-# RUN cd pybind11 && mkdir build && cd build
-# RUN /bin/sh -c cmake ..
-# RUN make install

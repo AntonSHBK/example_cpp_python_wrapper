@@ -15,10 +15,4 @@ services:
       - /bin/bash
       - -c
       - |
-        # mkdir build
-        # cd build
-        # cmake ..
-        # cmake --build .
-        # cd ..
-        # pip3 install -e . -vvv
         sleep 5d
