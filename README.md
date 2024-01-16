@@ -1,36 +1,122 @@
-# Simple cpp porting to python
+# Example of wrapping the Cpp library for Python using Pybind11 and OpenMP
 
-[Idea](https://github.com/smrfeld/cmake_cpp_pybind11_tutorial)
+The project provides an example of a library written in C++ with the CMake build system, as well as a code wrapping module for working in Python. The C++ library can be used separately, and you can also use a wrapper for Python.
 
-[Official tutorial](https://pybind11.readthedocs.io/en/stable/basics.html)
+<img src="imgs/cpp_img.png" alt="Cpp logotype" width="300"/>
 
-[Pybind11 examples](https://github.com/pybind/cmake_example)
+<img src="imgs/pybind11_logo.png" alt="Pybind11 logotype" width="300"/> 
 
-[Not bad tutorial for pybind11](https://smyt.ru/blog/sozdaem-s-python-rasshireniya-s-pomshyu-pybind11/?ysclid=lr6j5noobx652421112)
+<img src="imgs/python_img.jpg" alt="Python logotype" width="300"/>
 
-[About CMake expansion setup.py](https://www.benjack.io/hybrid-python/c-packages-revisited/)
+## Interesting materials
+- [Ideological inspiration](https://github.com/smrfeld/cmake_cpp_pybind11_tutorial)
+- [Official tutorial](https://pybind11.readthedocs.io/en/stable/basics.html)
+- [Official Pybind11 examples](https://github.com/pybind/cmake_example)
+- [Interesting tutorial for pybind11](https://smyt.ru/blog/sozdaem-s-python-rasshireniya-s-pomshyu-pybind11/?ysclid=lr6j5noobx652421112)
+- [About CMake expansion setup.py (wrapping)](https://www.benjack.io/hybrid-python/c-packages-revisited/)
 
-## Building cpp
+## Dependencies
+- cmake
+- pybind11
+
+## Using C++ library only
+
+```bush
+git clone https://github.com/AntonSHBK/simple_cpp_python_porting.git
+```
+
+For use in a project in conjunction with Cmake:
+
+```cmake
+if (NOT TARGET cpp_code)
+    add_subdirectory(cpp)
+endif() 
+target_link_libraries(${PROJECT_NAME} cpp_code)
+```
+
+The project also uses the OpenMP library, this project can serve as an example of use. It is important that the Pybind11 build project has an import of the OpenMP library
+```cmake
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries( ${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX)
+endif()
+```
+
+### Building project
 ```bush
 mkdir build && cd build
 # unix
 cmake ..
+make
 # win (my machine)
 cmake .. -G "MinGW Makefiles"
 make
 ```
-End next try testing...
 
-## Testing
+### Testing
 
-For test i use CTest. For verbose output you will use:
+Testing the library's performance. For test i use CTest. 
+For verbose output you will use:
 ```bush
 cd build
 ctest --verbose
 ```
+
+## Using Python library
+
+The deployment was tested on a Linux system, for use on Windows, you need to look at the official documentation.
+
 ```
+pip3 install pybind11
 pip3 install . --break-system-packages
 ```
+Run testing library while in the working directory:
+```bush
+python3 python_test.py
+```
 
+```cpp
+#include <omp.h>
+#include <pybind11/pybind11.h>
 
-[Вдохновение статье](https://github.com/smrfeld/cmake_cpp_pybind11_tutorial.git)
+#include <my_lib/my_include_file.h>
+#include "python_header.h"
+
+namespace py = pybind11;
+
+int add(const int &a, const int &b) {
+    return a + b;
+}
+
+PYBIND11_MODULE(CppToPython, m) {
+    m.def("add", &add); // добавили функцию в модуль
+    m.def("bob", &talker::bob); // добавили функцию в модуль
+
+    py::class_<talker::SomeTalker>(m, "SomeTalker")
+        .def(py::init<std::string>())
+        .def("get_omp_max_treads", &talker::SomeTalker::get_omp_max_treads)
+        .def("get_text_parallel", &talker::SomeTalker::get_text_parallel);
+};
+```
+
+There is a Docker container for testing. Running container:
+```bush
+cd /docker
+docker-compose up --build
+```
+
+Result:
+```python
+import CppToPython
+
+print(CppToPython.add(40, 10))
+print(CppToPython.bob(40, 10))
+
+print(CppToPython.sum_thread_ids())
+print(CppToPython.get_max_threads())
+
+this_talker = CppToPython.SomeTalker('Hello world!')
+
+print(this_talker.get_omp_max_treads())
+this_talker.get_text_parallel(4)
+```
