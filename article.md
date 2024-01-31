@@ -1,15 +1,20 @@
 # Настройка проекта C++ c использованием библиотеки OpenMP. Обёртывание проекта для Python с помощью pybind11 и CMake.
 
 
-<img src="imgs/cpp_img.png" alt="Cpp logotype" width="300"/>
-
-<img src="imgs/pybind11_logo.png" alt="Pybind11 logotype" width="300"/> 
-
-<img src="imgs/python_img.jpg" alt="Python logotype" width="300"/>
+<table>
+  <tr>
+    <td><img src="https://repository-images.githubusercontent.com/327470624/2d865200-6bf1-11eb-9d0e-2a488615d6ec" alt="Cpp logotype" width="400"/></td>
+    <td><img src="https://github.com/pybind/pybind11/raw/master/docs/pybind11-logo.png" alt="Python logotype" width="400"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F234222%2Fcd7d94d8-9a4e-fb0f-a3c2-39deff6fce77.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=9bccb26be639078f4e7885e4ee7ea0b0" alt="Pybind11 logotype" width="400"/></td>
+    <td><img src="https://mms.businesswire.com/media/20201113005450/en/307885/22/OpenMPLogo-rgb.jpg" alt="OpenMP logotype" width="400"></td>
+  </tr>
+ </table>
 
 ## Введение
 
-В этом статье показан простой практический пример настройки проекта на языке `C++` с использованием библиотеки для многопоточных вычислений `OpenMP` (на этом примере можно использовать любую библиотеку, если есть необходимость), а также дальнейшее  обёртывание для использования в проектах написанных на `Python`.
+В этом статье показан простой практический пример настройки проекта на языке `C++` с использованием библиотеки для многопоточных вычислений `OpenMP` (однако можно использовать любую библиотеку, если есть необходимость), а также дальнейшее  обёртывание для использования в проектах написанных на `Python`.
 
 В качестве инструмента обёртывания используется библиотека [pybind11](https://pybind11.readthedocs.io/en/stable/index.html), в качестве системы сборки [CMake](https://cmake.org/cmake/help/latest/guide/tutorial/index.html). 
 
@@ -21,9 +26,9 @@
 * `C++` проект, который вы можете создавать независимо от `pybind11`.
 * `Python` библиотека, созданная в результате переноса `C++` кода.
 
-## [Исходные файлы: GitHub](https://github.com/AntonSHBK/example_cpp_python_wrapper)
+[Исходные файлы рассматриваемые в данной работе.](https://github.com/AntonSHBK/example_cpp_python_wrapper)
 
-Проект развёрнут и протестирован на базе [Debian OS](https://www.debian.org/) с использованием технологии контейнеризации Docker [смотреть раздел docker исходных файлов](https://github.com/AntonSHBK/example_cpp_python_wrapper/tree/main/docker). Если ещё не ознакомились с данной технологией, крайне рекомендую ознакомиться, хотя бы на базовом уровне. Проект по идее должен нормально функционировать на любом дистрибутиве `Linux`, на платформе Windows могут возникнуть затруднения с использование библиотеки `pybind11`, рекомендую почитать [официальную документацию](https://pybind11.readthedocs.io/en/stable/basics.html) если возникли осложнения.
+Описываемый пример развёрнут и протестирован на базе [Debian OS](https://www.debian.org/) с использованием технологии контейнеризации Docker [смотреть раздел docker исходных файлов](https://github.com/AntonSHBK/example_cpp_python_wrapper/tree/main/docker). Если ещё не ознакомились с данной технологией, крайне рекомендую ознакомиться, хотя бы на базовом уровне. Проект по идее должен нормально функционировать на любом дистрибутиве `Linux`, на платформе Windows могут возникнуть затруднения с использование библиотеки `pybind11`, рекомендую почитать [официальную документацию](https://pybind11.readthedocs.io/en/stable/basics.html) если возникли осложнения.
 
 При проектировании проекта я использовал текстовый редактор `VS Code`, а также  расширение `CMake Tools` для  ускорения процесса сборки и написания кода.
 
@@ -50,9 +55,9 @@ pip install pybind11
 
 ## Создаём проект на C++ (CMake)
 
-Мы будем использовать внешний (текущий) рабочий каталог для сборки python и внутренний каталог с именем cpp для сборки `C++` кода.
+Мы будем использовать внешний (текущий) рабочий каталог для сборки python и внутренний каталог с именем cpp для сборки `C++` библиотеки.
 
-Хорошей практикой является разделение исходных файлов и заголовочных, поэтому создаём соответствующие директории `src` и `include`, а также надо позаботиться о тестировании нашего кода `tests` (необязательно, как меня учили это знак хорошего тона).
+Хорошей практикой является разделение исходных файлов и заголовочных, поэтому создаём соответствующие директории `src` и `include`, а также надо позаботиться о тестировании нашего кода `tests` (необязательно, как меня учили, это знак хорошего тона).
 
 Промежуточный результат имеет вид:
 ```tree
@@ -78,7 +83,7 @@ workspace.
 
 ###  Разберём каждый файл
 
-### 1. [/cpp/include/my_lib/my_include_file.h](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/include/my_lib/my_include_file.h)
+1. [/cpp/include/my_lib/my_include_file.h](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/include/my_lib/my_include_file.h)
 
 Здесь мы описали некоторый класс, который на вход принимает строку. У класса тоже присутствуют методы, их логика не принципиальна и приведена только для демонстрации функционала.
 
@@ -102,9 +107,9 @@ int bob(const int &, const int &);
 #endif
 ```
 
-### 2. [/cpp/src/my_cpp_file.cpp](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/src/my_cpp_file.cpp)
+2. [/cpp/src/my_cpp_file.cpp](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/src/my_cpp_file.cpp)
 
-Здесь мы описали все перечисленные функции заголовочного файла, обратите внимание при этом я использовал библиотеку OpenMP. Функция `get_omp_max_treads` должна вывести в консоль количество доступных потоков на вашей машине; `get_text_parallel` должна вывести строку (`_text`) в параллельном потоке.
+Здесь мы описали все перечисленные функции заголовочного файла, обратите внимание при этом мы использовали библиотеку OpenMP. Функция `get_omp_max_treads` должна вывести в консоль количество доступных потоков на вашей машине; `get_text_parallel` должна вывести строку (`_text`) в параллельном потоке.
 
 ```cpp
 #include <iostream>
@@ -136,14 +141,14 @@ namespace talker {
         }
         std::cout << std::endl;
     }
-    // Некоторая функция (просто пример)
+    // Некоторая функция (просто пример понадобится в дальнейшем)
     int bob(const int &a, const int &b) {
         return a + b;
     }
 }
 ```
 
-### 3. [/cpp/tests/src/test_cpp.cpp](https://github.com/AntonSHBK/example_cpp_python_wrapper/tree/main/cpp/tests/src)
+3. [/cpp/tests/src/test_cpp.cpp](https://github.com/AntonSHBK/example_cpp_python_wrapper/tree/main/cpp/tests/src)
 
 Здесь мы обращаемся к нашей библиотеке и создаём экземпляр класса, а также вызываем некоторые методы класса.
 
@@ -158,7 +163,7 @@ int main() {
 }
 ```
 
-### 4. [/cpp/tests/CMakeList.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/tests/CMakeLists.txt)
+4. [/cpp/tests/CMakeList.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/tests/CMakeLists.txt)
 
 Здесь мы описываем сборку теста. Добавляем исполняемый файл `add_executable`, добавляем написанную библиотеку `target_link_libraries`, а также указываем тест `add_test`.
 
@@ -177,7 +182,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC cpp_code)
 add_test(NAME test_cpp COMMAND test_cpp)
 ```
 
-### 5. [/cpp/CMakeList.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/CMakeLists.txt)
+5. [/cpp/CMakeList.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/cpp/CMakeLists.txt)
 
 Здесь мы описываем нашу библиотеку на `c++`. Постарался доходчиво расписать.
 
@@ -245,7 +250,7 @@ endif ()
 enable_testing()
 ```
 
-### 6. [/CMakeLists.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/CMakeLists.txt)
+6. [/CMakeLists.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/CMakeLists.txt)
 
 Пока нас не интересует данный файл, он нам понадобится когда будем делать обёртывание проекта, пока просто зададим название проекту, и установим стандарты... В дальнейшем мы его расширим.
 
@@ -293,33 +298,33 @@ Total Test time (real) =   0.07 sec
 Тест пройден успешно, можно видеть что в моей системе доступно 4 потока...
 
 ## Использование C++ библиотеки отдельно
-
-Подразумевается что в проекте используется система сборки CMake:
+Для использования библиотеки отдельно необходимо разместить её в удобном месте. Подразумевается что в проекте используется система сборки CMake:
 ```cmake
 if (NOT TARGET cpp_code)
-    add_subdirectory(cpp)
+    add_subdirectory(path_to_project/name_project/cpp)
 endif() 
 target_link_libraries(${PROJECT_NAME} cpp_code)
 ```
+Где `path_to_project` - оросительный путь к проекту, `name_project` - название проекта.
 
 ## Обертывание в Python при помощи pybind11
 
 Для обёртывания используем библиотеку [pybind11]((https://pybind11.readthedocs.io/en/stable/index.html)).
 
-Во время написания проекта я использовал официальную документацию а также доступные проекты других разработчиков.
+Во время написания кода использовалась официальная документация а также доступные проекты других разработчиков. В случае возникновения   осложнений рекомендую ознакомиться со следующими материала (сам использовал):
 
 - [Официальный туториал pybind11;](https://pybind11.readthedocs.io/en/stable/basics.html)
 - [Официальные примеры Pybind11;](https://github.com/pybind/cmake_example)
 - [Интересная статья по функциональным возможностям Pybind11;](https://smyt.ru/blog/sozdaem-s-python-rasshireniya-s-pomshyu-pybind11/?ysclid=lr6j5noobx652421112)
 - [Интересная статья по описанию setup.py (сборка обёртки)](https://www.benjack.io/hybrid-python/c-packages-revisited/)
 
-Сперва создадим директорию в которой будут располагаться исходники обёртки, назовём `Python`, также добавим один заголовный файл и один исходный файл `python_header.h` и `python_src.cpp` соответственно. По хорошему их бы следовало аналогично разнести по директориям `src` и `include` но это в данном случае не принципиально.
+Сперва создадим директорию в которой будут располагаться исходники обёртки, назовём `Python`, также добавим один заголовочный файл и один исходный файл `python_header.h` и `python_src.cpp` соответственно. По хорошему их бы следовало аналогично разнести по директориям `src` и `include` но это в данном случае не принципиально.
 
 Помимо этого в корневую директорию проекта добавим файл `setup.py` который будет осуществлять сборку нашего проекта под `python`. Можно было бы обойтись одним лишь Cmake, однако использование python для сборки мне показалось более практичным ([пример сборки CMake](https://pybind11.readthedocs.io/en/stable/compiling.html)).
 
 Рассмотрим добавленные файлы:
 
-### 7. [/python/python_header.h](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/python/python_header.h)
+7. [/python/python_header.h](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/python/python_header.h)
 
 Здесь ничего особо важно, просто перечисляю некоторые функции (`add`), которых нет в основной библиотеке. Таким образом мы можем не только использовать нашу библиотеку на C++ но и описывать любую другую логику.
 
@@ -405,7 +410,7 @@ setup(
 )
 ```
 
-### 10. [/CMakeLists.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/CMakeLists.txt)
+10. [/CMakeLists.txt](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/CMakeLists.txt)
 
 В заверении проектирования описываем наш `CMakeLists` верхнего уровня. Здесь мы перечисляем настройки для `pybind11` указываем все исходные файлы, а также добавляем все необходимые библиотеки, если их не указать сборка свалится с ошибкой (хотя сама библиотека собирается нормально, если кто знает как это правильнее сделать прошу сообщить об этом). 
 
@@ -464,7 +469,7 @@ endif()
 ```
 
 Также нам понадобится некоторый тестовый файл с вызовом наших функций в Python:
-[python_test.py](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/python_test.py)
+[python_test.py](https://github.com/AntonSHBK/example_cpp_python_wrapper/blob/main/python_test.py). Названия вызываемых функций должно совпадать с перечисленными названиями в файле `python_src.cpp`.
 
 ```python
 import CppToPython
@@ -530,4 +535,4 @@ python3 python_test.py
 
 ## Вывод
 
-Возможно описанный пример является чересчур синтетический и местами замудрённый, так как его писал для себя как тестовая проба сборки подобных проектов, однако в нем описаны основные моменты сборки рабочего проекта. На основе этого примера можно уже реализовать более сложную логику с использованием множества сторонних библиотек и сконцентрировать внимание на разработке логики нежели сталкиваться с проблемами сборки проекта. Надеюсь данная статья будет вам полезна. 
+Возможно описанный пример является чересчур синтетический и местами замудрённый, так как я его писал для себя как тестовая проба сборки подобных проектов. Здесь описаны основные моменты сборки рабочего проекта. На основе этого примера можно уже реализовать более сложную логику с использованием множества сторонних библиотек и сконцентрировать внимание на разработке логики нежели сталкиваться с проблемами сборки проекта. Надеюсь данная статья будет вам полезна. Также я привел в статье наиболее полезные на мой взгляд материала, которые мне помогли погрузиться в тему.
