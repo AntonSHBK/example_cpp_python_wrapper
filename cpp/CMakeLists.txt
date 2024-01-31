@@ -55,7 +55,7 @@ set(CMAKE_CXX_FLAGS "-fopenmp")
 
 # Указание подключаемых библиотек
 target_link_libraries(
-    ${projectName} 
+    ${PROJECT_NAME} 
     OpenMP::OpenMP_CXX 
 )
 
