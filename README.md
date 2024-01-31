@@ -2,13 +2,16 @@
 
 The project provides an example of a library written in C++ with the CMake build system, as well as a code wrapping module for working in Python. The C++ library can be used separately, and you can also use a wrapper for Python.
 
-<img src="https://repository-images.githubusercontent.com/327470624/2d865200-6bf1-11eb-9d0e-2a488615d6ec" alt="Cpp logotype" width="400"/>
-
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F234222%2Fcd7d94d8-9a4e-fb0f-a3c2-39deff6fce77.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=9bccb26be639078f4e7885e4ee7ea0b0" alt="Pybind11 logotype" width="400"/> 
-
-<img src="https://fuzeservers.ru/wp-content/uploads/f/7/6/f767b64a7d72b5a23b468aa191c085bc.jpeg" alt="Python logotype" width="400"/>
-
-<img src="https://mms.businesswire.com/media/20201113005450/en/307885/22/OpenMPLogo-rgb.jpg" alt="OpenMP logotype" width="400">
+<table>
+  <tr>
+    <td><img src="https://repository-images.githubusercontent.com/327470624/2d865200-6bf1-11eb-9d0e-2a488615d6ec" alt="Cpp logotype" width="400"/></td>
+    <td><img src="https://fuzeservers.ru/wp-content/uploads/f/7/6/f767b64a7d72b5a23b468aa191c085bc.jpeg" alt="Python logotype" width="400"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/pybind/pybind11/raw/master/docs/pybind11-logo.png" alt="Pybind11 logotype" width="400"/></td>
+    <td><img src="https://mms.businesswire.com/media/20201113005450/en/307885/22/OpenMPLogo-rgb.jpg" alt="OpenMP logotype" width="400"></td>
+  </tr>
+ </table>
 
 ## Interesting materials
 - [Ideological inspiration](https://github.com/smrfeld/cmake_cpp_pybind11_tutorial)
