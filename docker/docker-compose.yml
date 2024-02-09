@@ -1,5 +1,7 @@
 version: '3.4'
 
+name: pybind11-wrapper
+
 services:
   python-to-cpp:
     build:
